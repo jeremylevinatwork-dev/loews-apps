@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Loews Security Systems</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:#1a365d url('hotels-bg.jpg') no-repeat center center fixed;background-size:cover;color:#1a202c;line-height:1.5;min-height:100vh;}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,54,93,0.75);z-index:0;}
+.container{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+.card{background:white;border-radius:20px;box-shadow:0 12px 48px rgba(0,0,0,0.4);max-width:420px;width:100%;padding:36px 32px;text-align:center;}
+.logos{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.logos img{max-height:40px;max-width:110px;object-fit:contain;background:white;padding:4px;border-radius:6px;}
+h1{color:#1a365d;font-size:24px;margin-bottom:6px;}
+.subtitle{color:#666;font-size:13px;margin-bottom:24px;}
+label{display:block;text-align:left;font-size:13px;font-weight:600;color:#1a365d;margin-bottom:6px;margin-top:14px;}
+select,input{width:100%;padding:12px;border:2px solid #e2e8f0;border-radius:10px;font-size:16px;margin-bottom:4px;}
+select:focus,input:focus{outline:none;border-color:#1a365d;}
+.btn{width:100%;padding:14px;background:linear-gradient(135deg,#1a365d,#2d4a7a);color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:18px;}
+.btn:active{transform:scale(0.98);}
+.err{color:#c53030;font-size:13px;margin-top:8px;display:none;}
+.apps{display:none;width:100%;max-width:420px;}
+.app-btn{display:flex;align-items:center;gap:16px;background:white;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.25);cursor:pointer;border:none;width:100%;text-align:left;}
+.app-btn:active{transform:scale(0.98);}
+.app-icon{font-size:36px;}
+.app-info h3{color:#1a365d;font-size:18px;margin-bottom:4px;}
+.app-info p{color:#666;font-size:13px;}
+.footer{margin-top:24px;color:rgba(255,255,255,0.7);font-size:12px;text-align:center;position:relative;z-index:1;}
+.gold-bar{height:4px;background:linear-gradient(90deg,#d4af37,#f6e27a,#d4af37);border-radius:2px;margin:16px 0;}
+</style>
+</head>
+<body>
+<div class="overlay"></div>
+<div class="container">
+<div class="card" id="loginCard">
+<div class="logos">
+<img src="loews-logo.jpg" alt="Loews Hotels & Co">
+<img src="sciens-logo.jpg" alt="Sciens Building Solutions">
+<img src="securalert-logo.jpg" alt="SECURalert">
+<img src="emci-logo.jpg" alt="EMCI Wireless">
+</div>
+<div class="gold-bar"></div>
+<h1>Loews Security Systems</h1>
+<p class="subtitle">Team Login</p>
+<label>Select Your Name</label>
+<select id="nameInput">
+<option value="">-- Select --</option>
+<option>Jeremy Levin</option>
+<option>Justin Messenger</option>
+<option>Sean Forester</option>
+<option>Dominique Black</option>
+<option>Alexander Duff</option>
+</select>
+<label>Enter Team PIN</label>
+<input type="password" id="pinInput" inputmode="numeric" maxlength="10" placeholder="••••">
+<p class="err" id="pinErr"></p>
+<button class="btn" onclick="doLogin()">Login</button>
+</div>
+<div class="apps" id="appsCard">
+<div class="card">
+<div class="logos">
+<img src="loews-logo.jpg" alt="Loews" style="max-height:32px;">
+</div>
+<h1>Select Application</h1>
+<p class="subtitle" id="welcomeMsg">Welcome</p>
+<div class="gold-bar"></div>
+<button class="app-btn" onclick="location.href='https://jeremylevinatwork-dev.github.io/camera-tracking/'">
+<span class="app-icon">📷</span>
+<span class="app-info"><h3>Camera Tracking</h3><p>Security cameras & Sciens quotes</p></span>
+</button>
+<button class="app-btn" onclick="location.href='https://jeremylevinatwork-dev.github.io/radio-tracking/'">
+<span class="app-icon">📻</span>
+<span class="app-info"><h3>Radio Tracking</h3><p>Radios, repair & EMCI Wireless</p></span>
+</button>
+<button class="app-btn" onclick="location.href='https://jeremylevinatwork-dev.github.io/secure-alert/'">
+<span class="app-icon">🔐</span>
+<span class="app-info"><h3>Secure Alert</h3><p>Key fobs & SECURalert</p></span>
+</button>
+<button class="btn" onclick="doLogout()" style="background:#c53030;">🚪 Logout</button>
+</div>
+</div>
+</div>
+<p class="footer">Powered by Norman D Levin</p>
+<script>
+const USER_PINS={
+  'Jeremy Levin': '1245',
+  'Sean Forester': '3867',
+  'Dominique Black': '2195',
+  'Alexander Duff': '0132',
+  'Justin Messenger': '5132'
+};
+function doLogin(){
+const n=document.getElementById('nameInput').value;
+const v=document.getElementById('pinInput').value;
+const err=document.getElementById('pinErr');
+if(!n){err.textContent='Please select your name';err.style.display='block';return;}
+if(v===(USER_PINS[n]||'')){
+document.getElementById('loginCard').style.display='none';
+document.getElementById('appsCard').style.display='block';
+document.getElementById('welcomeMsg').textContent='Welcome, '+n;
+try{sessionStorage.setItem('portalAuth','1');sessionStorage.setItem('portalUser',n);}catch(e){}
+}else{err.textContent='Incorrect PIN';err.style.display='block';}
+}
+function doLogout(){try{sessionStorage.removeItem('portalAuth');sessionStorage.removeItem('portalUser');}catch(e){}location.reload();}
+document.getElementById('pinInput').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin();});
+try{if(sessionStorage.getItem('portalAuth')==='1'){const n=sessionStorage.getItem('portalUser')||'';document.getElementById('loginCard').style.display='none';document.getElementById('appsCard').style.display='block';if(n)document.getElementById('welcomeMsg').textContent='Welcome, '+n;}}catch(e){}
+</script>
+</body>
+</html>
